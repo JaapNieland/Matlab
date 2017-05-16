@@ -52,8 +52,6 @@ parse(p, varargin{:})
 if exist('figures/fig', 'dir') ~= 7   %checks if apropriate folder exists
     mkdir(strcat('figures', filesep, 'fig'));
 end
-    saveas(gcf, fullfile('figures', filesep,...
-    'fig',filesep, p.Results.filename), 'fig'); %saving backup fig
 
 
 %% Initializing defaults
@@ -137,6 +135,21 @@ if ~isempty(legend)
     set(legend,'FontSize',p.Results.fontsizelegend)
 end
 
-saveas(gcf, fullfile('figures', p.Results.filename), 'pdf') %Saves the image as pdf in the figures folder
-
+if exist(fullfile('figures',[p.Results.filename,'.pdf']),'file') || exist(fullfile('figures','fig',[p.Results.filename,'.fig']),'file')
+    disp(['file ',p.Results.filename, ' exists']);
+    userInput = input('Overwrite? y/n ','s');
+    if strcmp(userInput,'y')
+        saveas(gcf, fullfile('figures', p.Results.filename), 'pdf')
+        saveas(gcf, fullfile('figures', filesep,...
+            'fig',filesep, p.Results.filename), 'fig'); %saving backup fig
+    elseif strcmp(userInput,'n')
+        return
+    else
+        return   
+    end
+else
+    saveas(gcf, fullfile('figures', p.Results.filename), 'pdf') %Saves the image as pdf in the figures folder
+    saveas(gcf, fullfile('figures', filesep,...
+        'fig',filesep, p.Results.filename), 'fig'); %saving backup fig
+end
 end
