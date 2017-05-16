@@ -135,7 +135,7 @@ if ~isempty(legend)
     set(legend,'FontSize',p.Results.fontsizelegend)
 end
 
-if exist(fullfile('figures',[p.Results.filename,'.pdf']),'file')
+if exist(fullfile('figures',[p.Results.filename,'.pdf']),'file') || exist(fullfile('figures','fig',[p.Results.filename,'.fig']),'file')
     disp(['file ',p.Results.filename, ' exists']);
     userInput = input('Overwrite? y/n ','s');
     if strcmp(userInput,'y')
